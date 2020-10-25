@@ -60,16 +60,16 @@ def interpolate_bilinear(img, size_new, fator):
             dy = y_new - y1
 
             A = img[y1][x1]
-            B = img[y2][x1]
-            C = img[y1][x2]
+            B = img[y1][x2]
+            C = img[y2][x1]
             D = img[y2][x2]
 
-            c1 = (1 - dx) * (1 - dy) * A
-            c2 = dx * (1 - dy) * B
-            c3 = (1 - dx) * dy * C
-            c4 = dx * dy * D
+            px1 = (1 - dx) * (1 - dy) * A
+            px2 = dx * (1 - dy) * B
+            px3 = (1 - dx) * dy * C
+            px4 = dx * dy * D
 
-            img_resized[row][col] = c1 + c2 + c3 + c4
+            img_resized[row][col] = px1 + px2 + px3 + px4
 
     return img_resized
 
@@ -104,10 +104,10 @@ if __name__ == "__main__":
 
     # for fator in fatores:
     #     fator = 1/fator
-    #     img_reduzidas.append(mudanca_resolucao_path(img_folder + 'lenna.png', fator))
+    #     img_reduzidas.append(mudanca_resolucao_path(img_folder + 'lenna.png', fator, 'vizinho'))
 
     # for fator, img in zip(fatores, img_reduzidas):
-    #     img_aumentada = mudanca_resolucao(img, fator)
+    #     img_aumentada = mudanca_resolucao(img, fator, 'vizinho')
     #     show_img(img_aumentada, title=f'Imagem reduzida pelo fator {fator}')
 
     ### c
@@ -121,6 +121,7 @@ if __name__ == "__main__":
     #     img_aumentada = mudanca_resolucao(img, fator, 'bilinear')
     #     show_img(img_aumentada, title=f'Imagem reduzida pelo fator {fator}')
 
-    fator = 1/16
-    test = mudanca_resolucao_path(img_folder + 'lenna.png', fator, 'bilinear')
+    fator = 16
+    test = mudanca_resolucao_path(img_folder + 'lenna.png', 1/fator, 'bilinear')
+    test = mudanca_resolucao(test, fator, 'bilinear')
     show_img(test, title=f'Imagem reduzida pelo fator {fator}')

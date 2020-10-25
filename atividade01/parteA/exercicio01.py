@@ -5,13 +5,16 @@
 
 import numpy as np
 import cv2
-from cv2 import imread, imshow
+from cv2 import imread
+import matplotlib.pyplot as plt
 
 #a
 def show_img(img, title='image'):
-    imshow(title, img)
-    cv2.waitKey(0)  
-    cv2.destroyAllWindows()
+    img = img[:, :, ::-1]
+    plt.imshow(img)
+    plt.title(title)
+    plt.axis(False)
+    plt.show()
 
 def interpolate_neighbors_loop(size_new, row_positions, col_positions, img):
     img_resized = np.empty((size_new[0], size_new[1], 3), dtype=np.uint8)
@@ -96,32 +99,38 @@ def mudanca_resolucao_path(img_path, fator, method='vizinho'):
 
 if __name__ == "__main__":
     img_folder = 'atividade01/parteA/imagens/'
+    img_path = img_folder + 'lenna.png'
 
     fatores = [2, 4, 8, 16]
 
     ### b
     # img_reduzidas = []
 
+    # print(f'Tamanho original da imagem {imread(img_path).shape[:2]}')
+
     # for fator in fatores:
     #     fator = 1/fator
-    #     img_reduzidas.append(mudanca_resolucao_path(img_folder + 'lenna.png', fator, 'vizinho'))
+    #     img_reduzidas.append(mudanca_resolucao_path(img_path, fator, 'vizinho'))
 
     # for fator, img in zip(fatores, img_reduzidas):
     #     img_aumentada = mudanca_resolucao(img, fator, 'vizinho')
-    #     show_img(img_aumentada, title=f'Imagem reduzida pelo fator {fator}')
+    #     show_img(img_aumentada, title=f'Recuperação de imagem reduzida pelo fator {fator}, tamanho reduzido = {img.shape[:2]}')
 
     ### c
     # img_reduzidas = []
 
+    # print(f'Tamanho original da imagem {imread(img_path).shape[:2]}')
+
     # for fator in fatores:
     #     fator = 1/fator
-    #     img_reduzidas.append(mudanca_resolucao_path(img_folder + 'lenna.png', fator, 'bilinear'))
+    #     img_reduzidas.append(mudanca_resolucao_path(img_path, fator, 'bilinear'))
 
     # for fator, img in zip(fatores, img_reduzidas):
     #     img_aumentada = mudanca_resolucao(img, fator, 'bilinear')
-    #     show_img(img_aumentada, title=f'Imagem reduzida pelo fator {fator}')
+    #     show_img(img_aumentada, title=f'Recuperação de imagem reduzida pelo fator {fator}, tamanho reduzido = {img.shape[:2]}')
 
-    fator = 16
-    test = mudanca_resolucao_path(img_folder + 'lenna.png', 1/fator, 'bilinear')
-    test = mudanca_resolucao(test, fator, 'bilinear')
-    show_img(test, title=f'Imagem reduzida pelo fator {fator}')
+
+    # fator = 2
+    # test = mudanca_resolucao_path(img_folder + 'lenna.png', 1/fator, 'vizinho')
+    # # test = mudanca_resolucao(test, fator, 'bilinear')
+    # show_img(test, title=f'Imagem reduzida pelo fator {fator}')

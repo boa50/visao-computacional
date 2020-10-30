@@ -8,7 +8,7 @@ import cv2
 from cv2 import imread
 import matplotlib.pyplot as plt
 
-#a
+### a
 def show_img(imgs, titles):
     width = 4 * len(imgs)
     height = 4

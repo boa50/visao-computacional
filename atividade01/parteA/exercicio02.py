@@ -77,6 +77,8 @@ def filtra_espacial(img_path, filtro, average_filter=False):
 
             img_filtered[y, x] = filtered
     
+    img_filtered = img_filtered.clip(min=0, max=255).astype('uint8')
+
     return img_filtered
 
 if __name__ == "__main__":
@@ -141,11 +143,17 @@ if __name__ == "__main__":
     # show_img([img_f], [''])
 
     filtro = np.array([
-        [ 0, -1,  0],
-        [-1,  5, -1],
-        [ 0, -1,  0]])
+        [ 1,  2,  1],
+        [ 0,  0,  0],
+        [-1, -2, -1]])
     meu = filtra_espacial(img_path, filtro)
-    meu = ((meu - meu.min()) * (1/(meu.max() - meu.min()) * 255)).astype('uint8')
+    # meu = ((meu - meu.min()) * (1/(meu.max() - meu.min()) * 255)).astype('uint8')
+    # meu = meu - meu.min()
+    # meu = meu.clip(min=0, max=255)
+    # meu = meu / meu.max()
+    # meu = meu * 255
+    # meu = meu.astype('uint8')
+    # meu = (meu).astype('uint8')
 
     # open_cv = cv2.blur(img_original, (35,35))
     open_cv = cv2.filter2D(img_original, 0, filtro)

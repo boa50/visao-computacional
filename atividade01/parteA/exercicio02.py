@@ -39,7 +39,8 @@ def filtra_espacial(img_path, filtro, average_filter=False):
     filtro = filtro[:, :, None] * np.ones(colors, dtype=int)[None, None, :]
 
     img_padded = img_padding(img, filter_shape)
-    img_filtered = np.empty(img.shape, dtype=np.uint8)
+    # img_filtered = np.empty(img.shape, dtype=np.uint8)
+    img_filtered = np.empty(img.shape)
 
     for y in range(rows):
         for x in range(cols):
@@ -139,7 +140,13 @@ if __name__ == "__main__":
     # img_f = filtra_espacial(img_path, filtro11x11, average_filter=True)
     # show_img([img_f], [''])
 
-    ### testes com o opencv
-    # img = imread(img_path)
-    # blur = cv2.blur(img,(35,35))
-    # show_img([img_f, blur], ['meu', 'opencv'])
+    filtro = np.array([
+        [ 0, -1,  0],
+        [-1,  5, -1],
+        [ 0, -1,  0]])
+    meu = filtra_espacial(img_path, filtro)
+    meu = ((meu - meu.min()) * (1/(meu.max() - meu.min()) * 255)).astype('uint8')
+
+    # open_cv = cv2.blur(img_original, (35,35))
+    open_cv = cv2.filter2D(img_original, 0, filtro)
+    show_img([meu, open_cv], ['meu', 'opencv'])

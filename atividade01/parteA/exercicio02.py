@@ -29,7 +29,7 @@ def img_padding(img, filter_shape):
 
     return img_padded
 
-def filtra_espacial(img_path, filtro):
+def filtra_espacial(img_path, filtro, average_filter=False):
     img = imread(img_path)
     rows = img.shape[0]
     cols = img.shape[1]
@@ -43,8 +43,37 @@ def filtra_espacial(img_path, filtro):
 
     for y in range(rows):
         for x in range(cols):
-            part = img_padded[y:y + filter_shape[0], x:x + filter_shape[1]]
-            filtered = np.sum(part * filtro, axis=(0, 1), dtype=np.uint8)
+            y_diff = y - filter_shape[0]//2
+            x_diff = x - filter_shape[1]//2
+
+            if y_diff <= 0:
+                y_start = filter_shape[0]//2 + 1
+            else:
+                y_start = y
+
+            y_end = y + filter_shape[0]
+            y_end = min(y_end, rows)
+
+            if x_diff <= 0:
+                x_start = filter_shape[1]//2 + 1
+            else:
+                x_start = x
+
+            x_end = x + filter_shape[1]
+            x_end = min(x_end, cols)
+
+            part = img_padded[y_start:y_end, x_start:x_end]
+
+            y_filter_diff = y_end - y_start
+            x_filter_diff = x_end - x_start
+
+            if average_filter:
+                filter_norm = y_filter_diff * x_filter_diff 
+            else:
+                filter_norm = 1
+
+            filtered = np.sum(part * filtro[:y_filter_diff, :x_filter_diff, :] / filter_norm, axis=(0, 1))
+
             img_filtered[y, x] = filtered
     
     return img_filtered
@@ -52,6 +81,7 @@ def filtra_espacial(img_path, filtro):
 if __name__ == "__main__":
     img_folder = 'atividade01/parteA/imagens/'
     img_path = img_folder + 'lenna.png'
+    img_original = imread(img_path)
 
     ### b
     # filtro1 = 1/9 * np.array([
@@ -81,30 +111,35 @@ if __name__ == "__main__":
 
     # filtros = [filtro1, filtro2, filtro3, filtro4, filtro5]
 
-    # imgs = []
+    # imgs = [img_original]
     # for filtro in filtros:
     #     imgs.append(filtra_espacial(img_path, filtro))
 
-    # titles = ['Filtro 1', 'Filtro 2', 'Filtro 3', 'Filtro 4', 'Filtro 5']
+    # titles = ['Original', 'Filtro 1', 'Filtro 2', 'Filtro 3', 'Filtro 4', 'Filtro 5']
     # show_img(imgs, titles)
 
     ### c
-    # filtro3x3 = (1/(3*3)) * np.ones((3,3))
-    # filtro11x11 = (1/(11*11)) * np.ones((11,11))
-    # filtro17x17 = (1/(17*17)) * np.ones((17,17))
-    # filtro35x35 = (1/(35*35)) * np.ones((35,35))
+    # filtro3x3 = np.ones((3,3))
+    # filtro11x11 = np.ones((11,11))
+    # filtro17x17 = np.ones((17,17))
+    # filtro35x35 = np.ones((35,35))
 
     # filtros = [filtro3x3, filtro11x11, filtro17x17, filtro35x35]
 
-    # imgs = []
+    # imgs = [img_original]
     # for filtro in filtros:
-    #     imgs.append(filtra_espacial(img_path, filtro))
+    #     imgs.append(filtra_espacial(img_path, filtro, average_filter=True))
 
-    # titles = ['Filtro 3x3', 'Filtro 11x11', 'Filtro 17x17', 'Filtro 35x35']
+    # titles = ['Original', 'Filtro 3x3', 'Filtro 11x11', 'Filtro 17x17', 'Filtro 35x35']
     # show_img(imgs, titles)
 
 
+    ### testes
+    # filtro11x11 = np.ones((11,11))
+    # img_f = filtra_espacial(img_path, filtro11x11, average_filter=True)
+    # show_img([img_f], [''])
 
-    # filtro11x11 = (1/(11*11)) * np.ones((11,11))
-    # img = filtra_espacial(img_path, filtro11x11)
-    # show_img([img], [''])
+    ### testes com o opencv
+    # img = imread(img_path)
+    # blur = cv2.blur(img,(35,35))
+    # show_img([img_f, blur], ['meu', 'opencv'])

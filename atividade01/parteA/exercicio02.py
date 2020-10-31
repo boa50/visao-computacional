@@ -39,11 +39,12 @@ def filtra_espacial(img_path, filtro, average_filter=False):
     filtro = filtro[:, :, None] * np.ones(colors, dtype=int)[None, None, :]
 
     img_padded = img_padding(img, filter_shape)
-    # img_filtered = np.empty(img.shape, dtype=np.uint8)
     img_filtered = np.empty(img.shape)
 
     for y in range(rows):
         for x in range(cols):
+
+            ### Remover as bordas pretas dos filtros grandes
             y_diff = y - filter_shape[0]//2
             x_diff = x - filter_shape[1]//2
 
@@ -77,6 +78,7 @@ def filtra_espacial(img_path, filtro, average_filter=False):
 
             img_filtered[y, x] = filtered
     
+    ### Remover valores extremos
     img_filtered = img_filtered.clip(min=0, max=255).astype('uint8')
 
     return img_filtered
@@ -139,22 +141,24 @@ if __name__ == "__main__":
 
     ### testes
     # filtro11x11 = np.ones((11,11))
-    # img_f = filtra_espacial(img_path, filtro11x11, average_filter=True)
-    # show_img([img_f], [''])
-
-    filtro = np.array([
-        [ 1,  2,  1],
-        [ 0,  0,  0],
-        [-1, -2, -1]])
-    meu = filtra_espacial(img_path, filtro)
-    # meu = ((meu - meu.min()) * (1/(meu.max() - meu.min()) * 255)).astype('uint8')
-    # meu = meu - meu.min()
-    # meu = meu.clip(min=0, max=255)
-    # meu = meu / meu.max()
-    # meu = meu * 255
-    # meu = meu.astype('uint8')
-    # meu = (meu).astype('uint8')
+    # meu = filtra_espacial(img_path, filtro11x11, average_filter=True)
+    # filtro = np.array([
+    #     [ 1,  2,  1],
+    #     [ 0,  0,  0],
+    #     [-1, -2, -1]])
+    # meu = filtra_espacial(img_path, filtro)
 
     # open_cv = cv2.blur(img_original, (35,35))
-    open_cv = cv2.filter2D(img_original, 0, filtro)
-    show_img([meu, open_cv], ['meu', 'opencv'])
+    # open_cv = cv2.filter2D(img_original, 0, filtro)
+    # show_img([meu, open_cv], ['meu', 'opencv'])
+
+    # imgs = [img_original]
+    # # for filtro in filtros:
+    #     # imgs.append(cv2.filter2D(img_original, 0, filtro))
+    # imgs.append(cv2.blur(img_original, (3,3)))
+    # imgs.append(cv2.blur(img_original, (11,11)))
+    # imgs.append(cv2.blur(img_original, (17,17)))
+    # imgs.append(cv2.blur(img_original, (35,35)))
+
+    # titles = ['Original', 'Filtro 3x3', 'Filtro 11x11', 'Filtro 17x17', 'Filtro 35x35']
+    # show_img(imgs, titles)

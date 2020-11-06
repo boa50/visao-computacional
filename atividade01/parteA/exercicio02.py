@@ -90,39 +90,39 @@ if __name__ == "__main__":
     img_original = imread(img_path)
 
     ### b
-    filtro1 = 1/9 * np.array([
-        [1, 1, 1],
-        [1, 1, 1],
-        [1, 1, 1]])
+    # filtro1 = 1/9 * np.array([
+    #     [1, 1, 1],
+    #     [1, 1, 1],
+    #     [1, 1, 1]])
 
-    filtro2 = 1/16 * np.array([
-        [1, 2, 1],
-        [2, 4, 2],
-        [1, 2, 1]])
+    # filtro2 = 1/16 * np.array([
+    #     [1, 2, 1],
+    #     [2, 4, 2],
+    #     [1, 2, 1]])
 
-    filtro3 = np.array([
-        [ 0, -1,  0],
-        [-1,  5, -1],
-        [ 0, -1,  0]])
+    # filtro3 = np.array([
+    #     [ 0, -1,  0],
+    #     [-1,  5, -1],
+    #     [ 0, -1,  0]])
 
-    filtro4 = np.array([
-        [-1, -1, -1],
-        [-1,  8, -1],
-        [-1, -1, -1]])
+    # filtro4 = np.array([
+    #     [-1, -1, -1],
+    #     [-1,  8, -1],
+    #     [-1, -1, -1]])
 
-    filtro5 = np.array([
-        [ 1,  2,  1],
-        [ 0,  0,  0],
-        [-1, -2, -1]])
+    # filtro5 = np.array([
+    #     [ 1,  2,  1],
+    #     [ 0,  0,  0],
+    #     [-1, -2, -1]])
 
-    filtros = [filtro1, filtro2, filtro3, filtro4, filtro5]
+    # filtros = [filtro1, filtro2, filtro3, filtro4, filtro5]
 
-    imgs = [img_original]
-    for filtro in filtros:
-        imgs.append(filtra_espacial(img_path, filtro))
+    # imgs = [img_original]
+    # for filtro in filtros:
+    #     imgs.append(filtra_espacial(img_path, filtro))
 
-    titles = ['Original', 'Filtro 1', 'Filtro 2', 'Filtro 3', 'Filtro 4', 'Filtro 5']
-    show_img(imgs, titles)
+    # titles = ['Original', 'Filtro 1', 'Filtro 2', 'Filtro 3', 'Filtro 4', 'Filtro 5']
+    # show_img(imgs, titles)
 
     ### c
     # filtro3x3 = np.ones((3,3))

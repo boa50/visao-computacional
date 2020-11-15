@@ -26,16 +26,16 @@ if __name__ == "__main__":
 
         start = 0 + i*2
         end = 2 + i*2
-        # show_img(imgs, titles[start:end], rgb=False)
+        show_img(imgs, titles[start:end], rgb=False)
 
     ### b
     filtro_shape = (5,5)
     filtro_elementos = np.prod(filtro_shape)
     filtro_desvio_padrao = 50
     filtro = getGaussianKernel(filtro_elementos, filtro_desvio_padrao).reshape(filtro_shape)
-    # show_img([filtro], ['Filtro Gaussiano utilizado'], rgb=False)
+    show_img([filtro], ['Filtro Gaussiano utilizado'], rgb=False)
 
     noiseball = imread(img_paths[0], 0)
     noiseball = np.expand_dims(noiseball, -1)
     noiseball_filtered = convolve_freq(noiseball, filtro)
-    # show_img([noiseball_filtered], ['Noiseball filtrada'], rgb=False)
+    show_img([noiseball_filtered], ['Noiseball filtrada'], rgb=False)

@@ -20,12 +20,19 @@ while True:
         matches.append(results[0])
 
     for face_tuple, match in zip(face_locations, matches):
-        cv2.rectangle(frame, (face_tuple[3], face_tuple[0]), (face_tuple[1], face_tuple[2]), (0,255,0), 2)
+        square_color = (50, 205, 50)
+        text_color = (255, 255, 255)
+        cima, direita, baixo, esquerda = face_tuple
+
+        cv2.rectangle(frame, (esquerda, cima), (direita, baixo), square_color, 2)
 
         if match:
-            cv2.putText(frame, class_name, (face_tuple[3] + 6, face_tuple[2] - 6), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255,255,255), 1)
+            name = class_name
         else:
-            cv2.putText(frame, 'Desconhecido', (face_tuple[3] + 6, face_tuple[2] - 6), cv2.FONT_HERSHEY_DUPLEX, 1.0, (255,255,255), 1)
+            name = 'Desconhecido'
+
+        cv2.rectangle(frame, (esquerda - 1, baixo), (direita + 1, baixo + 30), square_color, -1)
+        cv2.putText(frame, name, (esquerda + 6, baixo + 25), cv2.FONT_HERSHEY_DUPLEX, 1.0, text_color, 1)
 
 
     cv2.imshow('frame', frame)

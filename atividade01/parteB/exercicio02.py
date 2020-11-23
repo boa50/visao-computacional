@@ -8,7 +8,6 @@ from exercicio01 import show_img
 if __name__ == "__main__":
     img_folder = 'atividade01/parteB/imagens/'
     img_path = img_folder + 'blocks.png'
-
     img = imread(img_path, 0)
 
     ### (a)
@@ -104,4 +103,4 @@ if __name__ == "__main__":
             img = cv2.rectangle(img, start_point, end_point, color, thickness)
 
 
-    show_img([img], [''], rgb=True)
+    show_img([img], ['Quadrados com buracos (em verde) e círculos sem buracos (em vermelho)'], rgb=True)
